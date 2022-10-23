@@ -21,3 +21,16 @@ export function getMenuList(params?) {
     params,
   });
 }
+
+
+/**
+ * 测试
+ * 
+ */
+ export function getdList(params?) {
+  return http.request({
+    url: '/menu/dlist',
+    method: 'GET',
+    params,
+  });
+}

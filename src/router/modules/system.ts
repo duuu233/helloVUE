@@ -27,6 +27,14 @@ const routes: Array<RouteRecordRaw> = [
     },
     children: [
       {
+        path: 'roleManagement/index',
+        name: 'roleList',
+        meta: {
+          title: '权限测试',
+        },
+        component: () => import('@/views/system/role/roleManagement/index.vue'),
+      },
+      {
         path: 'menu',
         name: 'system_menu',
         meta: {
