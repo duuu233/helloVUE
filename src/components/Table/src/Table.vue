@@ -8,7 +8,7 @@
           <n-tooltip trigger="hover" v-if="titleTooltip">
             <template #trigger>
               <n-icon size="18" class="ml-1 text-gray-400 cursor-pointer">
-                <QuestionCircleOutlined />
+                <QuestionCircleOutlined /> 
               </n-icon>
             </template>
             {{ titleTooltip }}
@@ -23,7 +23,7 @@
       <slot name="toolbar"></slot>
 
       <!--斑马纹-->
-      <n-tooltip trigger="hover">
+      <!-- <n-tooltip trigger="hover">
         <template #trigger>
           <div class="mr-2 table-toolbar-right-icon">
             <n-switch v-model:value="isStriped" @update:value="setStriped" />
@@ -31,10 +31,10 @@
         </template>
         <span>表格斑马纹</span>
       </n-tooltip>
-      <n-divider vertical />
+      <n-divider vertical /> -->
 
       <!--刷新-->
-      <n-tooltip trigger="hover">
+      <!-- <n-tooltip trigger="hover">
         <template #trigger>
           <div class="table-toolbar-right-icon" @click="reload">
             <n-icon size="18">
@@ -43,10 +43,10 @@
           </div>
         </template>
         <span>刷新</span>
-      </n-tooltip>
+      </n-tooltip> -->
 
       <!--密度-->
-      <n-tooltip trigger="hover">
+      <!-- <n-tooltip trigger="hover">
         <template #trigger>
           <div class="table-toolbar-right-icon">
             <n-dropdown
@@ -62,10 +62,10 @@
           </div>
         </template>
         <span>密度</span>
-      </n-tooltip>
+      </n-tooltip> -->
 
       <!--表格设置单独抽离成组件-->
-      <ColumnSetting />
+      <!-- <ColumnSetting /> -->
     </div>
   </div>
   <div class="s-table">

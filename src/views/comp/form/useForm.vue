@@ -3,7 +3,7 @@
     <div class="n-layout-page-header">
       <n-card :bordered="false" title="基础表单"> useForm 表单，用于向用户收集表单信息 </n-card>
     </div>
-    <n-card :bordered="false" class="mt-4 proCard">
+    <n-card :bordered="false" class="mt-4 proCard"> 
       <div class="BasicForm">
         <BasicForm @register="register" @submit="handleSubmit" @reset="handleReset">
           <template #statusSlot="{ model, field }">

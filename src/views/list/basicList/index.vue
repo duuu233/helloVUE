@@ -4,7 +4,7 @@
       <template #statusSlot="{ model, field }">
         <n-input v-model:value="model[field]" />
       </template>
-    </BasicForm>
+    </BasicForm> 
 
     <BasicTable
       :columns="columns"
@@ -193,7 +193,7 @@
       },
     },
     {
-      field: 'makeSource',
+      field: 'makeSource', 
       component: 'NRadioGroup',
       label: '来源',
       componentProps: {

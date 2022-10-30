@@ -14,3 +14,5 @@ dist
 Dockerfile
 components.d.ts
 components.d.ts
+src
+*.ts

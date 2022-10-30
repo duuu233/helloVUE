@@ -42,7 +42,7 @@ export const basicProps = {
   //是否显示操作按钮（查询/重置）
   showActionButtonGroup: propTypes.bool.def(true),
   // 显示重置按钮
-  showResetButton: propTypes.bool.def(true),
+  showResetButton: propTypes.bool.def(false),
   //重置按钮配置
   resetButtonOptions: Object as PropType<Partial<ButtonProps>>,
   // 显示确认按钮

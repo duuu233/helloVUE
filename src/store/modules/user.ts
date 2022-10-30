@@ -78,6 +78,8 @@ export const useUserStore = defineStore({
     GetInfo() {
       const that = this;
       return new Promise((resolve, reject) => {
+        resolve('1');
+        return
         getUserInfo()
           .then((res) => {
             const result = res;

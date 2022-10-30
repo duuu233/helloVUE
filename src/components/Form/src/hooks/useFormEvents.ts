@@ -40,6 +40,7 @@ export function useFormEvents({
       await submitFunc();
       return;
     }
+  
     const formEl = unref(formElRef);
     if (!formEl) return;
     try {

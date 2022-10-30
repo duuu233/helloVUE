@@ -35,6 +35,14 @@ const routes: Array<RouteRecordRaw> = [
         component: () => import('@/views/system/role/roleManagement/index.vue'),
       },
       {
+        path: 'user',
+        name: 'userList',
+        meta: {
+          title: '用户管理',
+        },
+        component: () => import('@/views/system/user/user.vue'),
+      },
+      {
         path: 'menu',
         name: 'system_menu',
         meta: {

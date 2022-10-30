@@ -1,9 +1,7 @@
 <template>
   <div>
     <ddd :origin-data="originData" ref="tableRef" showCheckbox></ddd>
-    <n-button type="info" @click="d">
-      获取选中ID
-    </n-button>
+    <n-button type="info" @click="d">获取选中ID</n-button>
   </div>
 
 

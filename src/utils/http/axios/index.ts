@@ -183,7 +183,9 @@ const transform: AxiosTransform = {
       (config as Recordable).headers.Authorization = options.authenticationScheme
         ? `${options.authenticationScheme} ${token}`
         : token;
+      
     }
+    // config.headers.Cookie='111111111'
     return config;
   },
 
