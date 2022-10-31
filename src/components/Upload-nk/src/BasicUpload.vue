@@ -1,18 +1,11 @@
 <template>
-<n-upload
-    action="/api/upload/file-upload"
- 
-            @before-upload="beforeUpload"
-            @finish="finish"
-    
-    name="file"
-  >
+  <n-upload action="/api/upload/file-upload" @before-upload="beforeUpload" @finish="finish" name="file">
     <n-button>上传文件</n-button>
   </n-upload>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref,reactive,watch} from 'vue'
+import { defineComponent, ref, reactive, watch } from 'vue'
 import type { UploadFileInfo } from 'naive-ui'
 import { useMessage } from 'naive-ui'
 import { basicProps } from './props';
@@ -28,7 +21,7 @@ export default defineComponent({
   },
   emits: ['uploadChange'],
   setup(props, { emit }) {
- 
+
     const globSetting = useGlobSetting();
     const fileListRef = ref<UploadFileInfo[]>([])
     const message = useMessage();
@@ -57,11 +50,11 @@ export default defineComponent({
 
       return true;
     }
-      //组装完整图片地址
-      // function getImgUrl(url: string): string {
-      //   const { imgUrl } = globSetting;
-      //   return /(^http|https:\/\/)/g.test(url) ? url : `${imgUrl}${url}`;
-      // }
+    //组装完整图片地址
+    // function getImgUrl(url: string): string {
+    //   const { imgUrl } = globSetting;
+    //   return /(^http|https:\/\/)/g.test(url) ? url : `${imgUrl}${url}`;
+    // }
     // const state = reactive({
     //     showModal: false,
     //     previewUrl: '',
@@ -70,23 +63,23 @@ export default defineComponent({
     //   });
     //上传结束
     function finish({ event: Event }) {
-        const res = eval('(' + Event.target.response + ')');
-        const infoField = componentSetting.upload.apiSetting.infoField;
-        const { code } = res;
-        const messageText = res.msg || res.message || '上传失败';
-        const result = res[infoField];
-        console.log(res)
-        emit('uploadChange', res.data.url);
-  
-        //成功
-        if (code === ResultEnum.SUCCESS) {
-          console.log(result)
-      
-       
-        } else {
-          message.error(messageText)
-        } 
+      const res = eval('(' + Event.target.response + ')');
+      const infoField = componentSetting.upload.apiSetting.infoField;
+      const { code } = res;
+      const messageText = res.msg || res.message || '上传失败';
+      const result = res[infoField];
+      console.log(res)
+      emit('uploadChange', res.data.url);
+
+      //成功
+      if (code === ResultEnum.SUCCESS) {
+        console.log(result)
+
+
+      } else {
+        message.error(messageText)
       }
+    }
     return {
       fileList: fileListRef,
       beforeUpload,

@@ -73,7 +73,7 @@
  // @ts-ignore
   import { websiteConfig } from '@/config/website.config';
   interface FormState {
-    username: string;
+    userName: string;
     password: string;
   }
 
@@ -85,13 +85,13 @@
   const LOGIN_NAME = PageEnum.BASE_LOGIN_NAME;
 
   const formInline = reactive({
-    username: 'admin',
-    password: '123456',
+    loginName: '13825146699',
+    password: 'Ftechain0723',
     isCaptcha: true,
   });
 
   const rules = {
-    username: { required: true, message: '请输入用户名', trigger: 'blur' },
+    loginName: { required: true, message: '请输入用户名', trigger: 'blur' },
     password: { required: true, message: '请输入密码', trigger: 'blur' },
   };
 
@@ -104,12 +104,12 @@
     e.preventDefault();
     formRef.value.validate(async (errors) => {
       if (!errors) {
-        const { username, password } = formInline;
+        const { loginName, password } = formInline;
         message.loading('登录中...');
         loading.value = true;
 
         const params: FormState = {
-          username,
+          loginName,
           password,
         };
 

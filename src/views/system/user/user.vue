@@ -40,8 +40,7 @@
 import { reactive, ref, unref, h, onMounted } from 'vue';
 import { useMessage } from 'naive-ui';
 import { BasicTable, TableAction } from '@/components/Table';
-import { getRoleList } from '@/api/system/role';
-import { getMenuList } from '@/api/system/menu';
+import { getUserList } from '@/api/system/user';
 import { columns } from './columns';
 import { formSchemas } from './schemas';
 import { PlusOutlined } from '@vicons/antd';
@@ -111,7 +110,7 @@ const loadDataTable = async (res: any) => {
     ...unref(params),
     ...res,
   };
-  return await getRoleList(_params);
+  return await getUserList(_params);
 };
 const searchSchemas: FormSchema[] = [
   {
@@ -206,11 +205,7 @@ function handleMenuAuth(record: Recordable) {
 }
 
 
-onMounted(async () => {
-  const treeMenuList = await getMenuList();
-  expandedKeys.value = treeMenuList.list.map((item) => item.key);
-  treeData.value = treeMenuList.list;
-});
+
 </script>
 
 <style lang="less" scoped>

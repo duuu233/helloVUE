@@ -269,7 +269,7 @@ function createAxios(opt?: Partial<CreateAxiosOptions>) {
           // 是否携带token
           withToken: true,
         },
-        withCredentials: false,
+        withCredentials: true,
       },
       opt || {}
     )
@@ -277,7 +277,6 @@ function createAxios(opt?: Partial<CreateAxiosOptions>) {
 }
 
 export const http = createAxios();
-
 // 项目，多个不同 api 地址，直接在这里导出多个
 // src/api ts 里面接口，就可以单独使用这个请求，
 // import { httpTwo } from '@/utils/http/axios'

@@ -28,7 +28,7 @@ export function getUserInfo() {
 export function login(params) {
   return http.request<BasicResponseModel>(
     {
-      url: '/login',
+      url: '/user/manage/login',
       method: 'POST',
       params,
     },
@@ -62,5 +62,16 @@ export function logout(params) {
     url: '/login/logout',
     method: 'POST',
     params,
+  });
+}
+
+
+/**
+ * @description: 获取用户列表
+ */
+ export function getUserList() {
+  return http.request({
+    url: '/user/list-user',
+    method: 'get',
   });
 }
