@@ -185,7 +185,6 @@ const transform: AxiosTransform = {
         : token;
       
     }
-    // config.headers.Cookie='111111111'
     return config;
   },
 
@@ -267,7 +266,7 @@ function createAxios(opt?: Partial<CreateAxiosOptions>) {
           // 忽略重复请求
           ignoreCancelToken: true,
           // 是否携带token
-          withToken: true,
+          withToken: false,
         },
         withCredentials: true,
       },

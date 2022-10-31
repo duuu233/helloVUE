@@ -43,7 +43,7 @@ const adminInfo = {
 
 export default [
   {
-    url: '/api/login',
+    url: '/user/manage/login',
     timeout: 1000,
     method: 'post',
     response: () => {

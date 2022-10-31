@@ -57,7 +57,7 @@
 
           <!--NUpload-->
           <template v-else-if="schema.component === 'NUpload'">
-            <BasicUploadNk v-model:value="formModel[schema.field]" @uploadChange="uploadChange" />
+            <BasicUploadNk v-model:value="formModel[schema.field]" @uploadFinish="uploadFinish" />
           </template>
 
 
@@ -257,7 +257,7 @@ export default defineComponent({
         }
       }
     );
-    function uploadChange(url) {
+    function uploadFinish(url) {
       getSchema.value.forEach((schema) => {
         if (schema.component === 'NUpload') {
           formModel[schema.field] = unref(url)
@@ -286,7 +286,7 @@ export default defineComponent({
       isInline,
       getComponentProps,
       unfoldToggle,
-      uploadChange
+      uploadFinish
     };
   },
 });

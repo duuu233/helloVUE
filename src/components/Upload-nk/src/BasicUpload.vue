@@ -1,11 +1,32 @@
 <template>
-  <n-upload action="/api/upload/file-upload" @before-upload="beforeUpload" @finish="finish" name="file">
-    <n-button>上传文件</n-button>
+  <n-upload action="/api/upload/file-upload" @before-upload="beforeUpload" @finish="finish" name="file" :max="1"
+    :show-file-list="false">
+    <div class="slot-box">
+      <n-button>上传文件</n-button>
+      <!-- 自定义上传成功文件列表 -->
+      <div class="file-list" @click="preview">
+        <n-icon size="20">
+          <attach-outline />
+        </n-icon>
+        <div>{{fileName}}</div>
+      </div>
+    </div>
   </n-upload>
+   <!--预览图片-->
+   <n-modal
+    v-model:show="previewObj.showModal"
+    preset="card"
+    title="预览"
+    :bordered="false"
+    :style="{ width: '520px' }"
+  >
+    <img :src="previewObj.previewUrl" />
+  </n-modal>
 </template>
 
 <script lang="ts">
 import { defineComponent, ref, reactive, watch } from 'vue'
+import { AttachOutline } from '@vicons/ionicons5'
 import type { UploadFileInfo } from 'naive-ui'
 import { useMessage } from 'naive-ui'
 import { basicProps } from './props';
@@ -15,23 +36,30 @@ import { useGlobSetting } from '@/hooks/setting';
 import componentSetting from '@/settings/componentSetting';
 import { valueToNode } from '@babel/types';
 export default defineComponent({
+  components: {
+    AttachOutline
+  },
   name: 'BasicUploadNk',
   props: {
     ...basicProps,
   },
-  emits: ['uploadChange'],
+  emits: ['uploadFinish'],
   setup(props, { emit }) {
+    let fileName=ref<string>('')
+    const previewObj=reactive({
+      showModal:false,
+      previewUrl:''
+    })
 
-    const globSetting = useGlobSetting();
     const fileListRef = ref<UploadFileInfo[]>([])
     const message = useMessage();
+      const globSetting = useGlobSetting();
     function checkFileType(fileType: string) {
       return componentSetting.upload.fileType.includes(fileType);
     }
     //上传之前
-    function beforeUpload({ file }) {
-      console.log(44)
-      const fileInfo = file.file;
+    function beforeUpload(options) {
+      const fileInfo = options.file.file;
       const { maxSize, accept } = props;
       const acceptRef = (isString(accept) && accept.split(',')) || [];
 
@@ -51,16 +79,14 @@ export default defineComponent({
       return true;
     }
     //组装完整图片地址
-    // function getImgUrl(url: string): string {
-    //   const { imgUrl } = globSetting;
-    //   return /(^http|https:\/\/)/g.test(url) ? url : `${imgUrl}${url}`;
-    // }
-    // const state = reactive({
-    //     showModal: false,
-    //     previewUrl: '',
-    //     originalImgList: [] as string[],
-    //     imgList: [] as string[],
-    //   });
+    function getImgUrl(url: string): string {
+      const { imgUrl } = globSetting;
+      return /(^http|https:\/\/)/g.test(url) ? url : `${imgUrl}${url}`;
+    }
+     function preview(){
+      previewObj.showModal=true
+      
+     }
     //上传结束
     function finish({ event: Event }) {
       const res = eval('(' + Event.target.response + ')');
@@ -69,7 +95,11 @@ export default defineComponent({
       const messageText = res.msg || res.message || '上传失败';
       const result = res[infoField];
       console.log(res)
-      emit('uploadChange', res.data.url);
+      fileName.value=res.data.name
+   
+      previewObj.previewUrl=getImgUrl(res.data.url)
+      console.log(previewObj.previewUrl)
+      emit('uploadFinish', res.data.url);
 
       //成功
       if (code === ResultEnum.SUCCESS) {
@@ -83,8 +113,22 @@ export default defineComponent({
     return {
       fileList: fileListRef,
       beforeUpload,
-      finish
+      finish,
+      fileName,
+      previewObj,
+      preview
     }
   }
 })
 </script>
+<style lang="less" scoped>
+  .slot-box{
+    display: flex;
+    align-items: center;
+    .file-list{
+      cursor: pointer;
+      display: flex;
+    align-items: center;
+    }
+  }
+</style>
