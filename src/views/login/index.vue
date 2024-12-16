@@ -1,188 +1,365 @@
 <template>
-  <div class="view-account">
-    <div class="view-account-header"></div>
-    <div class="view-account-container">
-      <div class="view-account-top">
-        <div class="view-account-top-logo">
-          <!-- <img :src="websiteConfig.loginImage" alt="" /> -->
+  <div>
+    <div class="login_content_bg">
+      <img :src="login_bg" class="login_bg_img" />
+      <div class="logon_content_bx">
+        <div class="login_content_tp">
+          <img :src="login_bx" class="login_bx_img" />
+          <p>乡帮帮调度系统管理后台</p>
         </div>
-        <div class="view-account-top-desc">{{ websiteConfig.loginDesc }}</div>
+        <div class="login_content_bm">
+          <el-form
+            autoComplete="on"
+            :model="loginForm"
+            :rules="loginRules"
+            ref="loginForm"
+            label-position="left"
+          >
+            <el-form-item prop="username">
+              <el-input
+                class="login_input"
+                name="username"
+                type="text"
+                v-model="loginForm.username"
+                autoComplete="on"
+                placeholder="请输入用户名"
+              >
+                <span slot="prefix" style="display: inline-block;">
+                  <img
+                    src="../../assets/images/login-icon1.png"
+                    class="login-icon"
+                    alt=""
+                  />
+                  <!-- <svg-icon
+                    icon-class="loginuser"
+                    class="color-main"
+                  ></svg-icon> -->
+                </span>
+              </el-input>
+            </el-form-item>
+            <el-form-item prop="password">
+              <el-input
+                class="login_input t8"
+                name="password"
+                :type="pwdType"
+                @keyup.enter.native="handleLogin"
+                v-model="loginForm.password"
+                autoComplete="on"
+                placeholder="请输入密码"
+              >
+                <span slot="prefix" style="display: inline-block;">
+                  <img
+                    src="../../assets/images/login-icon2.png"
+                    class="login-icon"
+                    alt=""
+                  />
+                  <!-- <svg-icon icon-class="loginpwd" class="color-main"></svg-icon> -->
+                </span>
+                <!--<span slot="suffix" @click="showPwd">
+                  <svg-icon icon-class="eye" class="color-main"></svg-icon>
+                </span>-->
+              </el-input>
+            </el-form-item>
+            <el-form-item style="text-align: center">
+              <el-button
+                class="logon_btn"
+                type="primary"
+                :loading="loading"
+                @click="handleLogin"
+              >
+                <!--     @click.native.prevent="handleLogin" -->
+                登 录
+              </el-button>
+            </el-form-item>
+          </el-form>
+        </div>
       </div>
-      <div class="view-account-form">
-        <n-form
-          ref="formRef"
-          label-placement="left"
-          size="large"
-          :model="formInline"
-          :rules="rules"
-        >
-          <n-form-item path="username">
-            <n-input v-model:value="formInline.username" placeholder="请输入用户名">
-              <template #prefix>
-                <n-icon size="18" color="#808695">
-                  <PersonOutline />
-                </n-icon>
-              </template>
-            </n-input>
-          </n-form-item>
-          <n-form-item path="password">
-            <n-input
-              v-model:value="formInline.password"
-              type="password"
-              showPasswordOn="click"
-              placeholder="请输入密码"
-            >
-              <template #prefix>
-                <n-icon size="18" color="#808695">
-                  <LockClosedOutline />
-                </n-icon>
-              </template>
-            </n-input>
-          </n-form-item>
-          <n-form-item class="default-color">
-            <div class="flex justify-between">
-              <!-- <div class="flex-initial">
-                <n-checkbox v-model:checked="autoLogin">自动登录</n-checkbox>
-              </div> -->
-              <div class="flex-initial order-last">
-                <a href="javascript:">忘记密码</a>
-              </div>
-            </div>
-          </n-form-item>
-          <n-form-item>
-            <n-button type="primary" @click="handleSubmit" size="large" :loading="loading" block>
-              登录
-            </n-button>
-          </n-form-item>
-       
-        </n-form>
-      </div>
+      <p class="login_copyright">
+        版权所有 深圳市乡邦科技有限公司2010～2030年 版本号 V1.1.0.2
+      </p>
     </div>
   </div>
 </template>
 
-<script lang="ts" setup>
-  import { reactive, ref } from 'vue';
-  import { useRoute, useRouter } from 'vue-router';
-  import { useUserStore } from '@/store/modules/user';
-  import { useMessage } from 'naive-ui';
-  import { ResultEnum } from '@/enums/httpEnum';
-  // @ts-ignore
-  import { PersonOutline, LockClosedOutline, LogoGithub, LogoFacebook } from '@vicons/ionicons5';
-  import { PageEnum } from '@/enums/pageEnum';
- // @ts-ignore
-  import { websiteConfig } from '@/config/website.config';
-  interface FormState {
-    userName: string;
-    password: string;
-  }
-
-  const formRef = ref();
-  const message = useMessage();
-  const loading = ref(false);
-   // @ts-ignore
-  const autoLogin = ref(true);
-  const LOGIN_NAME = PageEnum.BASE_LOGIN_NAME;
-
-  const formInline = reactive({
-    loginName: '13825146699',
-    password: 'Ftechain0723',
-    isCaptcha: true,
-  });
-
-  const rules = {
-    loginName: { required: true, message: '请输入用户名', trigger: 'blur' },
-    password: { required: true, message: '请输入密码', trigger: 'blur' },
-  };
-
-  const userStore = useUserStore();
-
-  const router = useRouter();
-  const route = useRoute();
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    formRef.value.validate(async (errors) => {
-      if (!errors) {
-        const { loginName, password } = formInline;
-        message.loading('登录中...');
-        loading.value = true;
-
-        const params: FormState = {
-          loginName,
-          password,
-        };
-
-        try {
-          const { code, message: msg } = await userStore.login(params);
-          message.destroyAll();
-          if (code == ResultEnum.SUCCESS) {
-            const toPath = decodeURIComponent((route.query?.redirect || '/') as string);
-            message.success('登录成功，即将进入系统');
-            if (route.name === LOGIN_NAME) {
-              router.replace('/');
-            } else router.replace(toPath);
-          } else {
-            message.info(msg || '登录失败');
-          }
-        } finally {
-          loading.value = false;
-        }
+<script>
+import { isvalidUsername, validateE_N, validateC_E_N } from '@/utils/validate'
+import { setSupport, getSupport, setCookie, getCookie } from '@/utils/support'
+import login_bg from '@/assets/images/login_bg.png'
+import login_bx from '@/assets/images/login_bx.png'
+import md5 from 'js-md5'
+export default {
+  name: 'login',
+  data() {
+    const validateUsername = (rule, value, callback) => {
+      if (!value) {
+        return callback(new Error('请输入账号'))
+      } else if (!validateC_E_N(value)) {
+        return callback(new Error('请输入中英文或数字'))
+      } else if ((value + '').length < 2 || (value + '').length > 20) {
+        return callback(new Error('请输入2~20个中英文数字'))
       } else {
-        message.error('请填写完整信息，并且进行验证码校验');
+        callback()
       }
-    });
-  };
+    }
+    const validatePass = (rule, value, callback) => {
+      if (!value) {
+        return callback(new Error('请输入密码'))
+      } else if (!validateE_N(value)) {
+        return callback(new Error('请输入6~20个英文数字或下划线'))
+      } else if ((value + '').length < 6 || (value + '').length > 20) {
+        return callback(new Error('请输入6~20个英文数字或下划线'))
+      } else {
+        callback()
+      }
+    }
+    return {
+      loginForm: {
+        username: '',
+        password: ''
+      },
+      loginRules: {
+        username: [
+          { required: true, trigger: 'blur', validator: validateUsername }
+        ],
+        password: [{ required: true, trigger: 'blur', validator: validatePass }]
+      },
+      loading: false,
+      pwdType: 'password',
+      login_bg,
+      login_bx,
+      dialogVisible: false,
+      supportDialogVisible: false
+    }
+  },
+  created() {
+    this.loginForm.username = getCookie('username')
+    this.loginForm.password = getCookie('password')
+    if (
+      this.loginForm.username === undefined ||
+      this.loginForm.username == null ||
+      this.loginForm.username === ''
+    ) {
+      this.loginForm.username = ''
+    }
+    if (
+      this.loginForm.password === undefined ||
+      this.loginForm.password == null
+    ) {
+      this.loginForm.password = ''
+    }
+  },
+  methods: {
+    showPwd() {
+      if (this.pwdType === 'password') {
+        this.pwdType = ''
+      } else {
+        this.pwdType = 'password'
+      }
+    },
+    handleLogin() {
+      this.$refs.loginForm.validate(valid => {
+        if (valid) {
+          // let isSupport = getSupport();
+          // if(isSupport===undefined||isSupport==null){
+          //   this.dialogVisible =true;
+          //   return;
+          // }
+          this.loading = true
+          let loginForm = {
+            password: md5(this.loginForm.password),
+            username: this.loginForm.username
+          }
+
+          this.$store
+            .dispatch('Login', loginForm)
+            .then(res => {
+              this.loading = false
+              setCookie('trueName', res.retData.trueName, 15)
+              // setCookie("password", this.loginForm.password, 15);
+
+              if (res.retCode === 200) {
+                setCookie('countyName', res.retData.countyName, 15)
+                setCookie('cityName', res.retData.cityName, 15)
+                setCookie('isSysAdmin', res.retData.isSysAdmin, 15)
+              }
+              this.$message({
+                message: '登录成功！',
+                type: 'success',
+                duration: 1000
+              })
+              this.$router.push({ path: '/' })
+            })
+            .catch(() => {
+              this.loading = false
+            })
+        } else {
+          console.log('参数验证不合法！')
+          return false
+        }
+      })
+    },
+    handleTry() {
+      this.dialogVisible = true
+    },
+    dialogConfirm() {
+      this.dialogVisible = false
+      setSupport(true)
+    },
+    dialogCancel() {
+      this.dialogVisible = false
+      setSupport(false)
+    }
+  }
+}
 </script>
 
-<style lang="less" scoped>
-  .view-account {
-    display: flex;
-    flex-direction: column;
-    height: 100vh;
-    overflow: auto;
+<style scoped lang="scss">
+::v-deep .el-input__prefix {
+  top: 5px;
+}
+.t8 ::v-deep .el-input__prefix {
+  top: 8px;
+}
 
-    &-container {
-      flex: 1;
-      padding: 32px 12px;
-      max-width: 384px;
-      min-width: 320px;
-      margin: 0 auto;
-    }
+.login-icon {
+  width: 22px;
+  height: 22px;
+}
+.color-main {
+  font-size: 16px;
+  color: red;
+}
+.login-form-layout {
+  position: absolute;
+  left: 0;
+  right: 0;
+  width: 360px;
+  margin: 140px auto;
+  border-top: 10px solid #409eff;
+}
 
-    &-top {
-      padding: 32px 0;
-      text-align: center;
+.login-title {
+  text-align: center;
+}
 
-      &-desc {
-        font-size: 14px;
-        color: #808695;
-      }
-    }
+.login-center-layout {
+  background: #409eff;
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: 100%;
+  margin-top: 200px;
+}
 
-    &-other {
-      width: 100%;
-    }
-
-    .default-color {
-      color: #515a6e;
-
-      .ant-checkbox-wrapper {
-        color: #515a6e;
-      }
-    }
-  }
-
-  @media (min-width: 768px) {
-    .view-account {
-      background-image: url('../../assets/images/login.svg');
-      background-repeat: no-repeat;
-      background-position: 50%;
-      background-size: 100%;
-    }
-
-    .page-account-container {
-      padding: 32px 0 24px 0;
-    }
-  }
+.login_content_bg {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  box-sizing: content-box;
+}
+.login_bg_img {
+  display: inline-block;
+  width: 100%;
+  height: auto;
+}
+.logon_content_bx {
+  width: 400px;
+  height: 420px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  /* margin-left: -239px;
+  margin-top: -245px; */
+  transform: translate(-50%, -50%);
+  border-radius: 20px;
+  background-color: #fff;
+  overflow: hidden;
+}
+.login_content_tp {
+  width: 100%;
+  height: 130px;
+  position: relative;
+}
+.login_bx_img {
+  width: 400px;
+  height: 130px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+}
+.login_content_tp p {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  text-align: center;
+  height: 130px;
+  line-height: 130px;
+  font-size: 28px;
+  color: #fff;
+  font-family: PingFang SC;
+  font-weight: 500;
+  z-index: 9;
+}
+.login_copyright {
+  width: 100vw;
+  text-align: center;
+  font-size: 14px;
+  font-family: PingFang SC;
+  font-weight: 400;
+  color: #555555;
+  bottom: 74px;
+  line-height: 14px;
+  position: absolute;
+}
+.login_content_bm {
+  width: 317px;
+  margin: 40px auto 0;
+}
+.login_content_bm .el-form-item {
+  margin: 0;
+}
+// duu
+:deep(.login_content_bm .el-form-item__content) {
+  margin: 0;
+}
+.logon_btn {
+  margin-top: 5px;
+  width: 100%;
+  height: 45px;
+  border-radius: 22.5px;
+  font-weight: 400;
+  background-color: #5bc267;
+  border-color: #5bc267;
+  box-shadow: 0px 6px 23px 0px #ceffd4;
+}
+// duu
+:deep(.logon_btn span) {
+  font-size: 16px;
+  font-weight: 400;
+  font-family: PingFang SC;
+}
+// duu
+:deep(.login_content_bm .el-input__inner) {
+  border: 1px solid #fff;
+  border-bottom: 1px solid #e6ebf1;
+  font-size: 18px;
+  line-height: 18px;
+}
+.login_input {
+  margin-bottom: 30px;
+}
+// duu
+:deep(.login_content_bm .el-form-item__content) {
+  margin-bottom: 8px;
+}
+::v-deep .el-form-item__error {
+  top: 45px;
+}
+::v-deep .el-form-item__error {
+  position: absolute;
+}
 </style>

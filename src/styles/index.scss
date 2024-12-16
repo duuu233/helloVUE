@@ -1,0 +1,360 @@
+@import './variables.scss';
+@import './mixin.scss';
+@import './transition.scss';
+@import './element-ui.scss';
+@import './sidebar.scss';
+
+html,
+body,
+div,
+ul,
+li,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+dl,
+dt,
+dd,
+ol,
+form,
+input,
+textarea,
+th,
+td,
+select,
+label,
+span {
+  margin: 0;
+  padding: 0;
+  font-size: 12px;
+}
+
+body {
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  font-family: Helvetica Neue, Helvetica, PingFang SC, Hiragino Sans GB, Microsoft YaHei, Arial, sans-serif;
+  background-color: #e7eff8;
+  // font-size: 12px;
+}
+
+html {
+  box-sizing: border-box;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+
+div:focus {
+  outline: none;
+}
+
+a:focus,
+a:active {
+  outline: none;
+}
+
+a,
+a:focus,
+a:hover {
+  cursor: pointer;
+  color: inherit;
+  text-decoration: none;
+}
+
+.clearfix {
+  &:after {
+    visibility: hidden;
+    display: block;
+    font-size: 0;
+    content: " ";
+    clear: both;
+    height: 0;
+  }
+}
+
+s,
+i,
+em {
+  font-style: normal;
+  text-decoration: none;
+}
+
+
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-size: 100%;
+  font-weight: 400;
+}
+
+.fr {
+  float: right;
+}
+
+li,
+ol,
+ul {
+  list-style: none;
+}
+
+// 文字颜色设置
+.enable_txt {
+  color: #67c23a;
+}
+
+.disable_txt {
+  color: #F56C6C;
+}
+
+.info_txt {
+  color: #919399;
+}
+
+.click_txt {
+  color: #3382F0;
+}
+
+//main-container全局样式
+.app-main {
+  min-height: 100%
+}
+
+.app-container {
+  margin: 0 20px 15px;
+}
+.el-input-number .el-input__inner {
+  text-align: left;
+}
+//搜索栏样式
+.filter-container {}
+
+//操作栏样式
+.operate-container {
+  margin-top: 10px;
+}
+
+.operate-container .el-card__body {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+
+
+//表格栏样式
+.el-table {
+  border-radius: 5px;
+}
+
+.table-container {
+  margin-top: 10px;
+}
+
+//批量操作栏样式
+.batch-operate-container {
+  display: inline-block;
+  margin-top: 20px;
+}
+
+.el-card__body {
+  line-height: 28px;
+}
+
+//分页栏样式
+.pagination-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px 0;
+  border-radius: 0 0 5px 5px;
+  width: 100%;
+  background-color: #fff;
+  box-shadow: 0px 0px 33px 0px rgba(223, 224, 228, 0.6);
+}
+
+//添加、更新表单样式
+.form-container {
+  position: absolute;
+  left: 0;
+  right: 0;
+  width: 720px;
+  padding: 35px 35px 15px 35px;
+  margin: 20px auto;
+}
+
+.el-form-item__label {
+  font-size: 12px;
+}
+
+.el-input__inner {
+  &::placeholder {
+    font-size: 12px;
+  }
+}
+
+.el-textarea__inner {
+  &::placeholder {
+    font-size: 12px;
+  }
+}
+
+//主标题
+.font-extra-large {
+  font-size: 20px;
+  color: #303133;
+}
+
+//标题
+.font-title-large {
+  font-size: 18px;
+  color: #303133;
+}
+
+//小标题
+.font-title-medium {
+  font-size: 16px;
+  color: #303133;
+}
+
+//正文
+.font-medium {
+  font-size: 16px;
+  color: #606266;
+}
+
+//正文
+.font-small {
+  font-size: 14px;
+  color: #606266;
+}
+
+//正文（小）
+.font-extra-small {
+  font-size: 13px;
+  color: #606266;
+}
+
+.color-main {
+  color: #409EFF;
+}
+
+.color-success {
+  color: #67C23A;
+}
+
+.color-warning {
+  color: #E6A23C;
+}
+
+.color-danger {
+  color: #F56C6C;
+}
+
+.color-info {
+  color: #909399;
+}
+
+
+//根据UI修改默认样式----------------------------------------------------------------start
+.el-range-editor--small .el-range-input,
+.el-range-editor--small .el-range-separator {
+  font-size: 12px;
+}
+
+.el-date-editor .el-range-separator {
+  width: 20px;
+}
+
+//表单操作列表 按钮样式
+.handle-table-box {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+
+  .el-button {
+    margin: 6px 6px 6px 0;
+    padding: 6px;
+    // width: 40px;
+    // height: 22px;
+    border-radius: 3px;
+  }
+}
+
+.input-width {
+  width: 217px !important;
+}
+
+.el-card.is-always-shadow,
+.el-card.is-hover-shadow:focus,
+.el-card.is-hover-shadow:hover {
+  box-shadow: none;
+}
+
+.el-dialog__title {
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.el-dialog__footer {
+  text-align: center;
+}
+
+.el-dialog__body {
+  padding: 20px;
+}
+
+.el-radio__label {
+  font-size: 12px;
+}
+
+// .el-table--border, .el-table--group
+.el-card {
+  border: none;
+}
+
+.el-card,
+.el-message {
+  border-radius: 5px;
+}
+
+// 修改 form 校验 警告信息样式
+.el-form-item__content {
+  display: flex;
+  align-items: flex-end;
+}
+
+.el-form-item__error {
+  position: static;
+  background-color: #FFEFF0;
+  color: #F66C6C;
+  padding: 8px !important;
+  border-radius: 2px;
+  margin-left: 10px;
+}
+
+// form表单下radio对齐样式被上面的影响了  特殊处理下  form-item 标签加个类名 form-item-radio
+.form-item-radio{
+  display: flex;
+  align-items: center;
+ 
+}
+.form-item-radio  .el-form-item__content {
+   margin-left: 0 !important;
+   align-items: center;
+}
+
+ .el-tabs__nav-next, .el-tabs__nav-prev{
+  line-height: 60px;
+}
